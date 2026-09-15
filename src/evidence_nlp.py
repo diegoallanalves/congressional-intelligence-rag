@@ -1,7 +1,15 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> ea5da9b (Update congressional intelligence RAG analysis)
 from __future__ import annotations
 
 from collections import Counter
 from io import BytesIO
+<<<<<<< HEAD
+=======
+from pathlib import Path
+>>>>>>> ea5da9b (Update congressional intelligence RAG analysis)
 import re
 
 import numpy as np
@@ -218,6 +226,10 @@ def load_v10_export(name: str, blob: bytes):
     if "Country" not in actions.columns:
         actions["Country"] = ""
 
+<<<<<<< HEAD
+=======
+    # Country is not present in the V10 Evidence sheet. Map it from Bill + Congress.
+>>>>>>> ea5da9b (Update congressional intelligence RAG analysis)
     lookup = (
         actions[["Bill", "Congress", "Country"]]
         .dropna(subset=["Bill"])
@@ -269,6 +281,10 @@ def merge_v10_exports(sources: list[tuple[str, bytes]]):
         + actions["Bill"].fillna("").astype(str).str.strip()
     )
 
+<<<<<<< HEAD
+=======
+    # Prefer a successful record when the same action exists in multiple uploads.
+>>>>>>> ea5da9b (Update congressional intelligence RAG analysis)
     actions["_success_rank"] = (
         actions["Analysis Status"].fillna("").astype(str).str.upper() == "SUCCESS"
     ).astype(int)
@@ -344,6 +360,10 @@ def merge_v10_exports(sources: list[tuple[str, bytes]]):
 
 
 def score_action(row):
+<<<<<<< HEAD
+=======
+    # Evidence is the primary NLP text. RAG mechanism/summary are fallback context.
+>>>>>>> ea5da9b (Update congressional intelligence RAG analysis)
     evidence_text = (
         safe_text(row.get("Evidence Quotes"))
         + " "
@@ -367,6 +387,10 @@ def score_action(row):
             terms.extend(matched)
             score += cfg["weight"]
 
+<<<<<<< HEAD
+=======
+    # Small adjustments from the original RAG classification, but evidence remains primary.
+>>>>>>> ea5da9b (Update congressional intelligence RAG analysis)
     if safe_text(row.get("Relevant")).upper() == "YES":
         score += 5
     if "RISK" in safe_text(row.get("Primary Classification")).upper():
